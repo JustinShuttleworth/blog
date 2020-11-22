@@ -66,6 +66,8 @@ export default function Home({posts}) {
   const classes = useStyles();
   const alternatingColor = ['primary', 'secondary'];
 
+
+
   return (
     <>
       <Head>
