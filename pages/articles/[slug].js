@@ -92,7 +92,7 @@ const Post = ({post}) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.0 }}
+          transition={{ duration: .5 }}
         >
           {progress >= 5 && (
             <LinearProgress className={classes.progress} variant="determinate" color={'primary'} value={progress} />
