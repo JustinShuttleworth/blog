@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => ({
   image: {
     width: "100%",
     alignItems: 'center',
-    paddingLeft: theme.spacing(5),
-    paddingRight: theme.spacing(5),
+    // paddingLeft: theme.spacing(5),
+    paddingRight: theme.spacing(2),
   },
   previewPadding: {
     display: 'flex',
@@ -44,8 +44,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
   },
   sidebar: {
-    // position: 'sticky',
-    // top: 20,
+    position: 'sticky',
+    top: 20,
     borderLeft: '2px solid #2B83FC',
     marginTop: theme.spacing(1),
     alignItems: 'center',
@@ -59,6 +59,16 @@ const useStyles = makeStyles((theme) => ({
   },
   tags: {
     marginRight: theme.spacing(2),
+  },
+  bottomMargin: {
+    marginBottom: theme.spacing(5),
+  },
+  excerpt: {
+    marginBottom: theme.spacing(2),
+  },
+  latestGrid: {
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
   }
 }));
 
@@ -66,7 +76,7 @@ export default function Home({posts}) {
   const classes = useStyles();
   const alternatingColor = ['primary', 'secondary'];
 
-
+  const latestPosts = posts.slice(1, 4)
 
   return (
     <>
@@ -81,13 +91,13 @@ export default function Home({posts}) {
           transition={{ duration: .5 }}
         >
           <Container maxWidth={'md'}>
-            <Grid container>
+            <Grid container className={classes.bottomMargin}>
               <Grid item md={9}>
                 <Link href={`/articles/${posts[0].sys.id}`}>
                   <CardActionArea className={classes.image}>
                     <img style={{width: '100%'}} src={`https:${posts[0].fields.featureImage.fields.file.url}`} />
                     <Typography variant={'h4'} component={'h1'} gutterBottom align={'justify'}>{posts[0].fields.name}</Typography>
-                    <Typography gutterBottom align={'justify'}>{posts[0].fields.excerpt}</Typography>
+                    <Typography className={classes.excerpt} align={'justify'}>{posts[0].fields.excerpt}</Typography>
 
                     <div style={{display: 'flex'}}>
                       <LocalOfferRoundedIcon color={'secondary'}/>
@@ -108,8 +118,7 @@ export default function Home({posts}) {
 
               </Grid>
               <Grid item md={3}>
-                <div style={{display: 'flex'}}>
-                  <div className={classes.sidebar} style={{alignItems: 'center'}}>
+                  <div className={classes.sidebar}>
                     <div className={classes.sidebarPadding}>
                       <div className={classes.sidebarBlock}>
                         <Typography variant={"h5"} className={classes.services}>Services</Typography>
@@ -133,10 +142,34 @@ export default function Home({posts}) {
                       </div>
                     </div>
                   </div>
-                </div>
-
-
               </Grid>
+            </Grid>
+
+            <Typography variant={'h3'}>Latest Articles</Typography>
+            <Grid container>
+              {latestPosts.map(post => (
+                <Grid item sm={4} className={classes.latestGrid}>
+                  <Link href={`/articles/${post.sys.id}`}>
+                    <CardActionArea>
+                      <img src={`https:${post.fields.featureImage.fields.file.url}`} style={{width: '100%'}}/>
+                      <Typography  className={classes.excerpt} variant={'h6'} align={'justify'}>{post.fields.name}</Typography>
+                      {post.fields.tag.map((tag, index) => (
+                        <div style={{display: 'flex'}}>
+                          <LocalOfferRoundedIcon color={'secondary'}/>
+                          <Chip
+                            className={classes.chip}
+                            key={tag.fields.name}
+                            size="small"
+                            label={tag.fields.name}
+                            clickable
+                            color={alternatingColor[index % alternatingColor.length]}
+                          />
+                        </div>
+                      ))}
+                    </CardActionArea>
+                  </Link>
+                </Grid>
+              ))}
             </Grid>
           </Container>
         </motion.div>
