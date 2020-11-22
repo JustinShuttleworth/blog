@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import {motion, useViewportScroll} from "framer-motion"
+import {motion} from "framer-motion"
 import React, {useEffect, useState} from "react";
 import Button from '@material-ui/core/Button';
 import {Container} from "@material-ui/core";
@@ -68,66 +68,76 @@ export default function Home({posts}) {
 
   return (
     <>
+      <Head>
+        <title>Web Dreamers</title>
+      </Head>
       <Header>
-        <Container maxWidth={'md'}>
-          <Grid container>
-            <Grid item md={9}>
-              <Link href={`/articles/${posts[0].sys.id}`}>
-                <CardActionArea className={classes.image}>
-                  <img style={{width: '100%'}} src={`https:${posts[0].fields.featureImage.fields.file.url}`} />
-                  <Typography variant={'h4'} component={'h1'} gutterBottom align={'justify'}>{posts[0].fields.name}</Typography>
-                  <Typography gutterBottom align={'justify'}>{posts[0].fields.excerpt}</Typography>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.0 }}
+        >
+          <Container maxWidth={'md'}>
+            <Grid container>
+              <Grid item md={9}>
+                <Link href={`/articles/${posts[0].sys.id}`}>
+                  <CardActionArea className={classes.image}>
+                    <img style={{width: '100%'}} src={`https:${posts[0].fields.featureImage.fields.file.url}`} />
+                    <Typography variant={'h4'} component={'h1'} gutterBottom align={'justify'}>{posts[0].fields.name}</Typography>
+                    <Typography gutterBottom align={'justify'}>{posts[0].fields.excerpt}</Typography>
 
-                  <div style={{display: 'flex'}}>
-                    <LocalOfferRoundedIcon color={'secondary'}/>
-                    {posts[0].fields.tag.map((tag, index) => (
-                      <Chip
-                        className={classes.chip}
-                        key={tag.fields.name}
-                        size="small"
-                        label={tag.fields.name}
-                        clickable
-                        color={alternatingColor[index % alternatingColor.length]}
-                      />
-                    ))}
-                    <Typography style={{marginLeft: 'auto'}}>Published: {posts[0].fields.date.substring(0, 10)}</Typography>
-                  </div>
-                </CardActionArea>
-              </Link>
-
-            </Grid>
-            <Grid item md={3}>
-              <div style={{display: 'flex'}}>
-                <div className={classes.sidebar} style={{alignItems: 'center'}}>
-                  <div className={classes.sidebarPadding}>
-                    <div className={classes.sidebarBlock}>
-                      <Typography variant={"h5"} className={classes.services}>Services</Typography>
-                      <Chip
-                        className={classes.services}
-                        label='Web Design'
-                        clickable
-                        color={'primary'}
-                      />
-                      <br/>
-                      <Chip
-                        className={classes.services}
-                        label='Power BI'
-                        clickable
-                        color={'secondary'}
-                      />
+                    <div style={{display: 'flex'}}>
+                      <LocalOfferRoundedIcon color={'secondary'}/>
+                      {posts[0].fields.tag.map((tag, index) => (
+                        <Chip
+                          className={classes.chip}
+                          key={tag.fields.name}
+                          size="small"
+                          label={tag.fields.name}
+                          clickable
+                          color={alternatingColor[index % alternatingColor.length]}
+                        />
+                      ))}
+                      <Typography style={{marginLeft: 'auto'}}>Published: {posts[0].fields.date.substring(0, 10)}</Typography>
                     </div>
+                  </CardActionArea>
+                </Link>
 
-                    <div className={classes.sidebarBlock}>
-                      <Subscribe />
+              </Grid>
+              <Grid item md={3}>
+                <div style={{display: 'flex'}}>
+                  <div className={classes.sidebar} style={{alignItems: 'center'}}>
+                    <div className={classes.sidebarPadding}>
+                      <div className={classes.sidebarBlock}>
+                        <Typography variant={"h5"} className={classes.services}>Services</Typography>
+                        <Chip
+                          className={classes.services}
+                          label='Web Design'
+                          clickable
+                          color={'primary'}
+                        />
+                        <br/>
+                        <Chip
+                          className={classes.services}
+                          label='Power BI'
+                          clickable
+                          color={'secondary'}
+                        />
+                      </div>
+
+                      <div className={classes.sidebarBlock}>
+                        <Subscribe />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
 
+              </Grid>
             </Grid>
-          </Grid>
-        </Container>
+          </Container>
+        </motion.div>
       </Header>
     </>
   )
